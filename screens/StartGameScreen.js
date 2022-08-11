@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25
   },
   numberInput: {
-    
+    height: 50, 
+    fontSize: 32
   }
 });
