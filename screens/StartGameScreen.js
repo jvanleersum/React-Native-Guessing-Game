@@ -23,7 +23,7 @@ export default StartGameScreen;
 
 const styles = StyleSheet.create({
   inputContainer: {
-    backgroundColor: "#72063c",
+    backgroundColor: "#4d0c2c",
     borderRadius: 8,
     marginTop: 100,
     marginHorizontal: 24,
