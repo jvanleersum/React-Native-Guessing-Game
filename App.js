@@ -13,6 +13,7 @@ import Colors from "./constants/colors";
 export default function App() {
   const [userNumber, setUserNumber] = useState(null);
   const [gameIsOver, setGameIsOver] = useState(false);
+  const [phoneTries, setPhoneTries] = useState(0);
 
   const [fontsLoaded] = useFonts({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -27,18 +28,25 @@ export default function App() {
     setUserNumber(number);
   }
 
-  const gameOverHandler = () => {
+  const gameOverHandler = (tries) => {
+    setPhoneTries(tries);
     setGameIsOver(true);
+  }
+
+  const newGameHandler = () => {
+    setUserNumber(null);
+    setGameIsOver(false);
+    setPhoneTries(0);
   }
 
   let screen = <StartGameScreen onPickedNumber={pickedNumberHandler}/>
 
   if (userNumber) {
-    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler}/>
+    screen = <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />
   }
 
   if (gameIsOver) {
-    screen = <GameOverScreen />
+    screen = <GameOverScreen phoneTries={phoneTries} userNumber={userNumber} onStartsNewGame={newGameHandler}/>
   }
 
   return (
