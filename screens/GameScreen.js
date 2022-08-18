@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Title from "../components/ui/Title";
 import NumberContainer from "../components/game/NumberContainer";
@@ -18,24 +18,42 @@ const generateRandomBetween = (min, max, exclude) => {
 let minBoundary = 1;
 let maxBoundary = 100;
 
-const GameScreen = ({ userNumber }) => {
-  const initialGuess = generateRandomBetween(minBoundary, maxBoundary, userNumber);
+const GameScreen = ({ userNumber, onGameOver }) => {
+  const initialGuess = generateRandomBetween(
+    1,
+    100,
+    userNumber
+  );
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
+  useEffect(() => {
+    if (currentGuess === userNumber) {
+      onGameOver();
+    }
+  }, [currentGuess, userNumber, onGameOver]);
+
   const nextGuessHandler = (direction) => {
-    if (direction === 'higher') {
-      minBoundary = currentGuess
-    } else { 
-      maxBoundary = currentGuess + 1
+    if (
+      (direction === "higher" && userNumber < currentGuess) ||
+      (direction === "lower" && userNumber > currentGuess)
+    ) {
+      Alert.alert("That's not true", "You cannot cheat!", [
+        { text: "Sorry", style: "cancel" },
+      ]);
+      return;
     }
-    newGuess = generateRandomBetween(minBoundary, maxBoundary, currentGuess);
-    setCurrentGuess(newGuess)
-    if (newGuess === userNumber) {
-      Alert.alert("Game Over", "Your number was guessed!")
+    if (direction === "higher") {
+      minBoundary = currentGuess;
     } else {
-      console.log(currentGuess)
+      maxBoundary = currentGuess + 1;
     }
-  }
+    const newGuess = generateRandomBetween(
+      minBoundary,
+      maxBoundary,
+      currentGuess
+    );
+    setCurrentGuess(newGuess);
+  };
 
   return (
     <View style={styles.screen}>
@@ -45,10 +63,14 @@ const GameScreen = ({ userNumber }) => {
         <Text>Higher or Lower?</Text>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
-            <PrimaryButton onPress={nextGuessHandler.bind(null, 'higher')}>+</PrimaryButton>
+            <PrimaryButton onPress={nextGuessHandler.bind(null, "higher")}>
+              +
+            </PrimaryButton>
           </View>
           <View style={styles.buttonContainer}>
-            <PrimaryButton onPress={nextGuessHandler.bind(null, 'lower')}>-</PrimaryButton>
+            <PrimaryButton onPress={nextGuessHandler.bind(null, "lower")}>
+              -
+            </PrimaryButton>
           </View>
         </View>
       </View>
