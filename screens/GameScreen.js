@@ -7,6 +7,7 @@ import NumberContainer from "../components/game/NumberContainer";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import Card from "../components/ui/Card";
 import HintText from "../components/ui/HintText";
+import GuessLogItem from "../components/game/GuessLogItem";
 
 const generateRandomBetween = (min, max, exclude) => {
   const rndNum = Math.floor(Math.random() * (max - min)) + min;
@@ -29,7 +30,7 @@ const GameScreen = ({ userNumber, onGameOver }) => {
 
   useEffect(() => {
     if (currentGuess === userNumber) {
-      onGameOver(guessRounds.length);
+      onGameOver(guessRoundsListLength);
     }
   }, [currentGuess, userNumber, onGameOver]);
 
@@ -62,6 +63,8 @@ const GameScreen = ({ userNumber, onGameOver }) => {
     setCurrentGuess(newGuess);
   };
 
+  const guessRoundsListLength = guessRounds.length
+
   return (
     <View style={styles.screen}>
       <Title>Opponent's Guess</Title>
@@ -81,11 +84,11 @@ const GameScreen = ({ userNumber, onGameOver }) => {
           </View>
         </View>
       </Card>
-      <View>
+      <View style={styles.listContainer}>
         <FlatList
           data={guessRounds}
           renderItem={(itemData) => {
-            return <Text>{itemData.item}</Text>;
+            return <GuessLogItem roundNumber={guessRoundsListLength - itemData.index} guess={itemData.item}/>;
           }}
           keyExtractor={item => item}
           alwaysBounceVertical={false}
@@ -112,4 +115,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
   },
+  listContainer: {
+    flex: 1,
+    padding: 16,
+  }
 });
