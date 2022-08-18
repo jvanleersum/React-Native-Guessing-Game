@@ -1,6 +1,6 @@
 import { View, StyleSheet, Alert } from "react-native";
 import { useEffect, useState } from "react";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 import Title from "../components/ui/Title";
 import NumberContainer from "../components/game/NumberContainer";
@@ -20,20 +20,18 @@ const generateRandomBetween = (min, max, exclude) => {
 
 let minBoundary = 1;
 let maxBoundary = 100;
+let tries = 1;
 
 const GameScreen = ({ userNumber, onGameOver }) => {
-  const initialGuess = generateRandomBetween(
-    1,
-    100,
-    userNumber
-  );
+  const initialGuess = generateRandomBetween(1, 100, userNumber);
+
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
   useEffect(() => {
     if (currentGuess === userNumber) {
-      onGameOver();
+      onGameOver(tries);
     }
-  }, [currentGuess, userNumber, onGameOver]);
+  }, [currentGuess, userNumber, onGameOver, tries]);
 
   const nextGuessHandler = (direction) => {
     if (
@@ -55,6 +53,7 @@ const GameScreen = ({ userNumber, onGameOver }) => {
       maxBoundary,
       currentGuess
     );
+    tries += 1;
     setCurrentGuess(newGuess);
   };
 
@@ -67,12 +66,12 @@ const GameScreen = ({ userNumber, onGameOver }) => {
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPress={nextGuessHandler.bind(null, "lower")}>
-              <Ionicons name="md-remove" size={24} color="whitesmoke"/>
+              <Ionicons name="md-remove" size={24} color="whitesmoke" />
             </PrimaryButton>
           </View>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPress={nextGuessHandler.bind(null, "higher")}>
-              <Ionicons name="md-add" size={24} color="whitesmoke"/>
+              <Ionicons name="md-add" size={24} color="whitesmoke" />
             </PrimaryButton>
           </View>
         </View>
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   hintText: {
-    marginBottom: 12
+    marginBottom: 12,
   },
   buttonsContainer: {
     flexDirection: "row",
