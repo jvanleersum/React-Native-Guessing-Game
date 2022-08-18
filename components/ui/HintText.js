@@ -9,6 +9,7 @@ export default HintText;
 
 const styles = StyleSheet.create({
   hintText: {
+    fontFamily: 'open-sans',
     color: Colors.accent500,
     fontSize: 24
   },
