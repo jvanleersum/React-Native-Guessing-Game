@@ -4,7 +4,7 @@ const PrimaryButton = (props) => {
   return (
     <View style={styles.buttonOuterContainer}>
       <Pressable
-        style={({ pressed }) => 
+        style={({ pressed }) =>
           pressed
             ? [styles.buttonInnerContainer, styles.pressed]
             : styles.buttonInnerContainer
