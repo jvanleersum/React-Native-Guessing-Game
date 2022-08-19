@@ -12,9 +12,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'whitesmoke',
     textAlign: 'center',
-    // borderWidth: Platform.OS === 'android' ? 2: 0,
-    borderWidth: Platform.select({ios: 0, android: 2}),
-    borderColor: 'whitesmoke',
     padding: 12
   }
 });
